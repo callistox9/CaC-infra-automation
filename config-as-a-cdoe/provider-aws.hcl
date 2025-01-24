@@ -4,9 +4,9 @@ locals {
   relative_deployment_path   = path_relative_to_include()
   deployment_path_components = compact(split("/", local.relative_deployment_path))
   state_path                 = join("/", slice(local.deployment_path_components, 2, length(local.deployment_path_components)))
-  env                        = local.deployment_path_components[2]
+  env                        = local.deployment_path_components[0]
   # account_handle             = local.deployment_path_components[3]
-  aws_region                 = local.deployment_path_components[3]
+  aws_region                 = local.deployment_path_components[0]
 
   # Get a list of every path between root_deployments_directory and the path of
   # the deployment
