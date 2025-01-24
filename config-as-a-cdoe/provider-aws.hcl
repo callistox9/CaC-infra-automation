@@ -47,21 +47,21 @@ locals {
 }
 
 
-remote_state {
-  backend = "s3"
-  generate = {
-    path      = "backend.tf"
-    if_exists = "overwrite"
-  }
-  config = {
-    bucket         = "eb-aws-tfstate"
-    region         = "us-east-1"
-    encrypt        = true
-    key            = "${local.merged_config.account_id}/${local.deployment_path_components[0]}/${local.state_path}/terraform.tfstate"
-    role_arn = "arn:aws:iam::${local.tfstate_account}:role/${local.tfstate_account_role_name}"
-    dynamodb_table = "eb-tf-lock"
-  }
-}
+# remote_state {
+#   backend = "s3"
+#   generate = {
+#     path      = "backend.tf"
+#     if_exists = "overwrite"
+#   }
+#   config = {
+#     bucket         = "eb-aws-tfstate"
+#     region         = "us-east-1"
+#     encrypt        = true
+#     key            = "${local.merged_config.account_id}/${local.deployment_path_components[0]}/${local.state_path}/terraform.tfstate"
+#     role_arn = "arn:aws:iam::${local.tfstate_account}:role/${local.tfstate_account_role_name}"
+#     dynamodb_table = "eb-tf-lock"
+#   }
+# }
 
 # Generate an AWS provider block
 generate "provider" {
