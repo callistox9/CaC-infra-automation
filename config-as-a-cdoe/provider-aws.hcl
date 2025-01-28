@@ -8,8 +8,7 @@ locals {
   # account_handle             = local.deployment_path_components[3]
   aws_region                 = local.deployment_path_components[0]
 
-  # Get a list of every path between root_deployments_directory and the path of
-  # the deployment
+  # Get a list of every path between root_deployments_directory and the path of the deployment
   possible_config_dirs = [
     for i in range(0, length(local.deployment_path_components) + 1) :
     join("/", concat(
