@@ -1,5 +1,5 @@
 
-name: Terragrunt Deploy Pipeline
+name: CI-Pipeline
 
 permissions:
   contents: read
@@ -11,72 +11,23 @@ env:
   tg_version: '0.66.3'
   CURRENT_REPO: 'current-repo'
   TERRAFORM_MODULE_REPO: 'terraform-module-repo'
-  # ENVIRONEMNT_NAME: 'sandbox-0'
-  # FOLDER: 'serverless'
-  # WORKFLOW_HOME_FOLDER: '/home/runner/work/terragrunt-dev
 
 on:
   push:
     branches:
-      - "*"
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Select environment'
-        required: true
-        type: choice
-        options:
-          - "aws/sandbox/us-east-1/sandbox-0"
-          - "aws/dev/us-east-1/dev-0"
-          - "aws/prod/us-east-1/prod-0"
+      - "main"
 
-      folder:
-        description: 'Select the folder or folder you want to deploy'
-        required: true
-        default: "*"
-        type: choice
-        options:
-          - "*"
-          - "cloudfront"
-          - "cognito"
-          - "documentdb"
-          - "iam"
-          - "kms"
-          - "network"
-          - "opensearch"
-          - "pinpoint"
-          - "postgres"
-          - "redis"
-          - "s3"
-          - "secrets"
-          - "security"
-          - "serverless"
-          - "ses"
-          - "simple"
-          - "sms"
-          - "ssm"
-          - "waf"
 jobs:
   pipeline:
     runs-on: ubuntu-latest
     
     steps:
 
-    - name: Checkout current repo terragrunt-dev
+    - name: Clone this repository
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
         path: ${{ env.CURRENT_REPO }}
-        # ref: 'main'
-
-    - name: Checkout this repo terraform-infra-modules
-      uses: actions/checkout@v3
-      with:
-        repository: Effibuild/terraform-infra-modules
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        fetch-depth: 0
-        path: ${{ env.TERRAFORM_MODULE_REPO }}
-        # ref: 'main'
 
     - name: Get modified files for merged commit only
       id: vars
@@ -88,58 +39,17 @@ jobs:
         git diff-tree --no-commit-id --name-only -r ${{ github.sha }}^1  ${{ github.sha }} >> changed_files.txt        
         cat changed_files.txt
         ls -alh .
-      working-directory: ${{ env.CURRENT_REPO }}
-
-    - name: Copy files in case of merge commit
-      if: ${{ github.event_name != 'workflow_dispatch' }}
-      run: |
-
-        SKIP_WORKFLOW="true"
-        
-        declare -A set
-        while IFS= read -r changed_file; do
-          echo $changed_file
-          arrChangedFile=(${changed_file//// })
-          echo "${arrChangedFile[@]}"
-        
-          if [[ "${arrChangedFile[0]}" == "infrastructure" ]]; then
-              SKIP_WORKFLOW="false"
-              dir_path=$(dirname "$changed_file")
-              echo "Directory path: $dir_path"
-          else
-              echo "Changed file not in path infrastructure/"
-          fi
-        done < changed_files.txt
-
-        cp -r /home/runner/work/terragrunt-dev/terragrunt-dev/terraform-module-repo/* .
-        mkdir lambdas
-        mkdir api_spec
-        echo "SKIP_WORKFLOW=$SKIP_WORKFLOW" >> $GITHUB_ENV
-
-      working-directory: ${{ env.CURRENT_REPO }}
-
-    - name: Copy files in case of manual trigger
-      if: ${{ github.event_name == 'workflow_dispatch' }}
-      run: |
-        SKIP_WORKFLOW="false"
-        cp -r /home/runner/work/terragrunt-dev/terragrunt-dev/terraform-module-repo/* .
-        echo "SKIP_WORKFLOW=$SKIP_WORKFLOW" >> $GITHUB_ENV
-
-      working-directory: ${{ env.CURRENT_REPO }}
+      working-directory: ${{ env.CURRENT_REPO }}        
 
     #Doc -- https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
     - name: Configure AWS credentials
-      if: ${{ env.SKIP_WORKFLOW != 'true' }}
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        role-to-assume: arn:aws:iam::891376921657:role/github_oidc_iam_role_for_terragrunt
+        role-to-assume: arn:aws:iam::127214154743:role/assume-role-credentials
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: us-east-1
 
     - name: Install Terraform
-      if: ${{ env.SKIP_WORKFLOW != 'true' }}
       run: |
         wget https://releases.hashicorp.com/terraform/${{ env.tf_version }}/terraform_${{ env.tf_version }}_linux_amd64.zip
         unzip terraform_${{ env.tf_version }}_linux_amd64.zip
@@ -148,14 +58,12 @@ jobs:
 
 
     - name: Install Terragrunt
-      if: ${{ env.SKIP_WORKFLOW != 'true' }}
       run: |
         wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.66.8/terragrunt_linux_amd64
         chmod +x terragrunt_linux_amd64
         sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
 
     - name: Apply Terraform for CI pipeline
-      if: ${{ (github.event_name != 'workflow_dispatch') && (env.SKIP_WORKFLOW != 'true') }}
       run: |
         declare -A set
         while IFS= read -r changed_file; do
