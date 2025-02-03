@@ -1,6 +1,3 @@
-# infra-automation
-#
-
 ## CaC Infra AutomationOverview
 
 CaC Infra Automation is a comprehensive repository designed to automate cloud infrastructure provisioning and configuration. The repository leverages the principles of Configuration as Code (CaC) to enable consistent, reliable, and scalable deployments across multiple environments. It supports various cloud providers, including AWS and Azure, making it a versatile tool for managing complex infrastructure setups.
@@ -198,4 +195,3 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 - Thanks to all contributors and users for their valuable feedback and support.
 - Inspired by best practices in cloud automation and DevOps.
-
