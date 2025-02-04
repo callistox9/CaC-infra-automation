@@ -1,9 +1,4 @@
 region: "us-east-1"
 region_short: "use1"
-<<<<<<< Updated upstream
 environment_name: "dev-0"
 is_prod: false 
-=======
-environment_name: "prod"
-is_prod: true #strict boundary between prod and non-prod
->>>>>>> Stashed changes
