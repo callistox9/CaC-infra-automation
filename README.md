@@ -36,6 +36,8 @@ CaC Infra Automation is a comprehensive repository designed to automate cloud in
 ## Repository Structure
 
 ```plaintext
+Update later
+
 CaC-infra-automation/
 |-- environments/         # Contains environment-specific configurations (dev, staging, prod)
 |-- modules/              # Reusable Terraform modules for cloud resources
