@@ -90,57 +90,13 @@ terraform {
 # ​use this strategy to avoid web hooks​
 # ​https://chatgpt.com/share/c1d05d64-8883-4f85-90c9-5bcde3d951a0
 
-  # Copy shared modules
-  // before_hook "before" {
-  //   commands     = ["init", "apply", "destroy", "plan"]
-  //   execute      = ["cp", "-rf", "${get_repo_root()}/common-modules", "."]
-  // }
-
-  // after_hook "clean" {
-  //   commands     = ["init", "apply", "destroy", "plan"]
-  //   execute      = ["rm", "-rf", "common-modules"]
-  //   run_on_error = true
-  // }
-
-  // before_hook "lambdas" {
-  //   commands     = ["init", "apply", "destroy", "plan"]
-  //   execute      = ["cp", "-rf", "${get_repo_root()}/stateful", "."]
-  // }
-  //   after_hook "clean_lambdas" {
-  //   commands     = ["init", "apply", "destroy", "plan"]
-  //   execute      = ["rm", "-rf", "lambdas"]
-  //   run_on_error = true
-  // }
-
   before_hook "api_spec" {
     commands     = ["init", "apply", "destroy", "plan"]
     execute      = ["cp", "-rf", "${get_repo_root()}/api_spec", "."]
   }
 
-  # after_hook "clean_api_spec" {
-  #   commands     = ["init", "apply", "destroy", "plan"]
-  #   execute      = ["rm", "-rf", "api_spec"]
-  #   run_on_error = true
-  # }
    before_hook "lambdas" {
      commands     = ["init", "apply", "destroy", "plan"]
      execute      = ["cp", "-rf", "${get_repo_root()}/lambdas", "."]
    }
 
-  // after_hook "clean_lambdas" {
-  //   commands     = ["init", "apply", "destroy", "plan"]
-  //   execute      = ["rm", "-rf", "${get_repo_root()}/lambdas", "."]
-  //   run_on_error = true
-  // }
-
-
-  # before_hook "authorizer" {
-  #   commands     = ["init", "apply", "destroy", "plan"]
-  #   execute      = ["cp", "-rf", "${get_repo_root()}/authorizer", "."]
-  # }
-
-  # before_hook "api_spec" {
-  #   commands     = ["init", "apply", "destroy", "plan"]
-  #   execute      = ["cp", "-rf", "${get_repo_root()}/api_spec", "."]
-  # }
-}
