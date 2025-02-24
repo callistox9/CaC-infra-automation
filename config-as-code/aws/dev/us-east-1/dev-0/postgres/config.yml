@@ -1,0 +1,85 @@
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend-postgresql"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+postgres_config:
+  postgres_resource_0:
+    # postgresql_db_cluster_name: "postgresql-0"
+    # postgresql_security_group_name: "postgresql-0-security-group"
+    # postgresql_db_subnet_group_name: "${region_short}-${sdlc}-${env}-postgresql-0-subnet-group"
+    # postgresql_security_group_ingress_rule_name: "${region_short}-${sdlc}-${env}-postgresql-0-security-group-ingress-rule"
+    # postgresql_monitoring_role_name: "${region_short}-${sdlc}-${env}-postgresql-0-monitoring-role"
+    postgresql_engine: "postgres"
+    postgresql_engine_version: "16"
+    postgresql_major_engine_version: "16"
+    postgresql_instance_type: "db.t4g.micro"
+    postgresql_allocated_storage: 20
+    postgresql_max_allocated_storage: 30
+    postgresql_db_name: "db_name"
+    postgresql_username: "db_username"
+    vpc_private_subnets: ["subnet-0d040c5db65eaacd7","subnet-07ec288d2c67610ca","subnet-040f2439f45a55bbd"]
+    #security_group_id: ["sg-0b8139757fe1279b0"]
+    postgresql_maintenance_window: "Mon:00:00-Mon:03:00"
+    postgresql_backup_window: "03:00-06:00"
+    postgresql_security_group_egress_rules: ["all-all"]
+    kms_key_id_arn: "arn:aws:kms:us-east-1:654654381413:key/7b9c80e1-7f50-4c7f-bf5f-68e21274069e"
+    vpc_create: true
+    vpc_id: "vpc-09c66f534c904ef58"
+    vpc_cidr_block: "10.100.0.0/16"
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ## Global configurations
+# global:
+#   tags:
+#     service: "eb-backend"
+#     Name: "eb-backend"
+#     Environment: "sandbox"
+#     Owner: "backend-team"
+#     engineering-org: "backend"
+
+# postgresql_db:
+#   postgresql_db_cluster_name: "identifier-postgresql"
+#   postgresql_engine: "postgres"
+#   postgresql_engine_version: "16"
+#   postgresql_instance_type: "db.t3.micro"
+#   postgresql_allocated_storage: 20
+#   postgresql_major_engine_version: 16
+#   postgresql_max_allocated_storage: 30
+#   postgresql_db_name: "db_name"
+#   postgresql_username: "db_username"
+#   postgresql_db_subnet_group_name: use1-sandbox-postgresql-0-subnet-group"
+#   postgresql_maintenance_window: "Mon:00:00-Mon:03:00"
+#   postgresql_backup_window: "03:00-06:00"
+#   postgresql_monitoring_role_name: "use1-sandbox-postgresql-0-monitoring-role"
+
+# postgresql_security_group:
+#   postgresql_security_group_name: "use1-sandbox-postgresql-0-security-group"
+#   postgresql_security_group_egress_rules: ["all-all"]
+#   ingress_with_cidr_blocks: [
+#     {
+#       rule        = "postgresql-tcp"
+#       cidr_blocks = "10.100.0.0/16"
+#       name        = "use1-sandbox-postgresql-0-security-group-ingress-rule"
+      
+#     }
+#   ]

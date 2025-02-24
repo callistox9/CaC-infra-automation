@@ -1,0 +1,22 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+sagemaker_domain_config:
+  sagemaker-domain-0:
+    domain_name: "domain-usea1-sandbox"
+    auth_mode: "SSO"
+    vpc_id: "vpc-0b9b948b9fda7e06f"
+    subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+    security_group_ids: ["sg-0a3a54224092e4d52"]
+    app_network_access_type: "VpcOnly"
+    efs_retention_policy: "Retain"
+    default_space_min_volume_size: 5
+    default_space_max_volume_size: 100
+
+

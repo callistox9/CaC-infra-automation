@@ -1,0 +1,107 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+documentdb_configs:
+  documentdb_cluster_0:
+    documentdb_cluster_name: "documentdb-0"
+    documentdb_cluster_size: 1
+    documentdb_master_username: "admin1"
+    documentdb_master_password: "password"
+    documentdb_instance_class: "db.t3.medium"
+    documentdb_port: 27017
+    vpc_id: "vpc-09c66f534c904ef58"
+    vpc_private_subnets: ["subnet-0d040c5db65eaacd7","subnet-07ec288d2c67610ca","subnet-040f2439f45a55bbd"]
+    #  vpc_private_subnets: 
+    #   - "subnet-0e74ba71842be5b62"
+    #   - "subnet-03b9c75ffcbc2e595"
+    #   - "subnet-070fae91e13699cbc"
+    documentdb_apply_immediately: true
+    documentdb_auto_minor_version_upgrade: true
+    #security_group_id: "sg-0b8139757fe1279b0"
+    documentdb_snapshot_identifier: ""
+    documentdb_retention_period: 5
+    documentdb_preferred_backup_window: "07:00-09:00"
+    documentdb_preferred_maintenance_window: "Mon:22:00-Mon:23:00"
+    documentdb_cluster_parameters: []
+      # - parameter_name: "param1"
+      #   parameter_value: "value1"
+      # - parameter_name: "param2"
+      #   parameter_value: "value2"
+    documentdb_cluster_family: "docdb5.0"
+    documentdb_engine: "docdb"
+    documentdb_engine_version: "5.0.0"
+    documentdb_storage_type: "standard"
+    documentdb_storage_encrypted: true
+    kms_key_id_arn: "arn:aws:kms:us-east-1:654654381413:key/7b9c80e1-7f50-4c7f-bf5f-68e21274069e"
+    documentdb_skip_final_snapshot: true
+    documentdb_enabled_cloudwatch_logs_exports: []
+    documentdb_ssm_parameter_enabled: false
+    documentdb_security_group_egress_rules: ["all-all"]
+    vpc_cidr_block: "	10.100.0.0/16"
+
+documentdb_security_group:
+  documentdb_security_group_0:
+    documentdb_security_group_name: "documentdb-0-security-group"
+    documentdb_security_group_ingress_rule_name: "documentdb-0-security-group-ingress-rule"
+    vpc_id: "vpc-09c66f534c904ef58"
+    documentdb_security_group_egress_rules: ["all-all"]
+    ingress_cidr_blocks: ["10.100.0.0/16"]
+
+
+
+
+
+
+# documentdb_cluster:
+#   documentdb_cluster_size: 1
+#   documentdb_master_username: "admin"
+#   documentdb_master_password: "admin123"
+#   documentdb_instance_class: "db.t3.medium"
+#   documentdb_port: 27017
+#   vpc_id: "vpc-0d4dff948f2a7a05c"
+#   subnet_ids: ["subnet-0e74ba71842be5b62", "subnet-0e74ba71842be5b62"]
+#   #pirvate_subnets: "subnet-0e74ba71842be5b62"
+#   documentdb_apply_immediately: true
+#   documentdb_auto_minor_version_upgrade: true
+#   allowed_security_groups: ["sg-0ea3fdf388f5c8601"]
+#   #security_group_id: "sandbox-vpc-sg"
+#   documentdb_snapshot_identifier: ""
+#   documentdb_retention_period: 5
+#   documentdb_preferred_backup_window: "07:00-09:00"
+#   documentdb_preferred_maintenance_window: "tue:10:00-tue:11:00"
+#   documentdb_cluster_parameters: []
+#   documentdb_cluster_family: "docdb3.6"
+#   documentdb_engine: "docdb"
+#   documentdb_engine_version: "5.0.0"
+#   documentdb_storage_type: "standard"
+#   documentdb_storage_encrypted: true
+#   kms_key_id: "arn:aws:kms:us-east-1:891376921657:key/0d4dff948f2a7a05c"
+#   documentdb_skip_final_snapshot: true
+#   documentdb_enabled_cloudwatch_logs_exports: []
+#   documentdb_ssm_parameter_enabled: true
+
+# documentdb_security_group:
+#   documentdb_security_group_name: "use1-sandbox-documentdb-0-subnet-group"  
+#   vpc_id: "vpc-0d4dff948f2a7a05c"
+#   documentdb_security_group_egress_rules: ["all-all"] 
+#   documentdb_security_group_ingress_rule_name: 
+#   ingress_with_cidr_blocks:
+#     rule: "mongodb-27017-tcp"
+#     cidr_blocks: "10.100.0.0/16"
+#     name: "use1-sandbox-documentdb-0-security-group-ingress-rule"  # Example value for local.documentdb_security_group_ingress_rule_name
+#     description: "documentdb security group"
+
+#   tags:
+#   common_tags:
+#     sdlc: "rnd"
+#     environment_name: "sandbox"
+#     is_prod: "false"
+
+#   documentdb_helpers_additional_tags:
+#     customer_critical: "false"

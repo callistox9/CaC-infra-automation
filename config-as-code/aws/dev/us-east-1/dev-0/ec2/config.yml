@@ -1,0 +1,16 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+ec2_configs:
+  ec2_resource_0:
+   instance_type: "t2.micro"
+   key_name: ""
+   vpc_security_group_ids: ["sg-02a0509f9becb38f3"]
+   monitoring: true
+   subnet_id: "subnet-0215b8bb427989e8f"

@@ -1,0 +1,15 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+pinpoint_configs:
+  pinpoint_0:
+    pinpoint_name_suffix: "pinpoint-0"
+    # application_name: "pinpoint-backend"
+    # tags:
+    # customer_critical: "true"

@@ -1,0 +1,20 @@
+## Global configurations #
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+kms_configs:
+ kms-sandbox-resource-0:
+   kms_is_enabled: true
+   kms_enable_key_rotation: true
+   kms_key_usage: "ENCRYPT_DECRYPT"
+   kms_key_users: ["arn:aws:iam::891376921657:root"]
+   kms_aliases: ["effibuild/lambda", "effibuild/s3", "effibuild/elasticfilesystem", "effibuild/es", "effibuild/ebs", "effibuild/codecommit", "effibuild/cloud9", "effibuild/sns", "effibuild/secretsmanager", "effibuild/acm", "effibuild/rds"]
+   kms_aliases_use_name_prefix: false
+   kms_multi_region: false
+   kms_enable_default_policy: true
+   kms_create_external: false

@@ -1,0 +1,18 @@
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+simple_notification_service_configs:
+  sns_0:
+    sns_name_suffix : "sns-0"
+    display_name : "test"
+    kms_master_key_id: "7b9c80e1-7f50-4c7f-bf5f-68e21274069e"
+    endpoint: "+919901817630"
+    
+
+
+

@@ -1,0 +1,125 @@
+# ## Global configurations
+global:
+  tags:
+    service: "redis-backend"
+    Name: "redis-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+redis_config:
+  redis_cache_0:
+    redis_cache_name_suffix: "redis-0"
+    redis_create: true
+    redis_engine: "redis"
+    redis_major_engine_version: "7"
+    redis_daily_snapshot_time: "12:00"
+    redis_snapshot_retention_days: 7
+    redis_security_group_egress_rules:
+      - "all-all"
+    ingress_with_cidr_blocks:
+      - cidr_blocks: "10.100.0.0/16"
+    subnet_ids:
+      - "subnet-0d040c5db65eaacd7"
+      - "subnet-07ec288d2c67610ca"
+      - "subnet-040f2439f45a55bbd"
+    kms_key_id_arn: "arn:aws:kms:us-east-1:654654381413:key/7b9c80e1-7f50-4c7f-bf5f-68e21274069e"
+    #security_group_id: ["sg-0b8139757fe1279b0"]
+    vpc_id: "vpc-09c66f534c904ef58"
+    redis_security_group_egress_rules: ["all-all"]
+    redis_security_group_name: "redis-backend-security-group"
+    vpc_cidr_block: "10.100.0.0/16"
+    
+
+# ## Global configurations
+# global:
+#   tags:
+#     service: "eb-backend"
+#     Name: "eb-backend"
+#     Environment: "sandbox"
+#     Owner: "backend-team"
+#     engineering-org: "backend"
+
+
+
+# elasticache_serverless_cache:
+#   engine: "redis"  # Replace with your engine type
+#   cache_name: "use1-sandbox-redis-0"  # Replace with your cache name
+
+#   cache_usage_limits:
+#     data_storage:
+#       maximum: 2
+#     ecpu_per_second:
+#       maximum: 1000
+
+#   daily_snapshot_time: "12:00"  # Replace with your snapshot time
+#   description: "serverless-cache"
+#   major_engine_version: "7"  # Replace with your Redis engine version
+
+#   #security_group_ids:
+#    # - "sg-0ea3fdf388f5c8601"  # Replace with your security group ID
+
+#   snapshot_retention_limit: 7  # Replace with your snapshot retention days
+#   subnet_ids:
+#     - "subnet-0e74ba71842be5b62"  # Example private subnet ID
+#     # Add more subnets as needed
+
+#   kms_key_id: "arn:aws:kms:us-east-1:654654381413:key/3e2c3940-31a9-42b5-bab4-6ce240ca554a"  # Replace with your KMS key ARN
+
+#   #user_group_id: "your-region-your-environment-redis-cache-0-user-group"  # Replace with your user group ID
+
+#   timeouts:
+#     create: "10m"
+#     delete: "10m"
+#     update: "15m"
+
+#   tags:
+#     service: "your-service-name"
+#     Name: "your-name"
+#     Environment: "your-environment"
+#     Owner: "your-owner"
+#     engineering-org: "your-engineering-org"
+#     customer_critical: "false"
+
+
+# cache_user_group:
+#   default_user:
+#     access_string: "on ~* -@all +@read"
+#     user_id: "$use1-snadbox-redis-0" # Replace with your user ID
+#     passwords:
+#       - "RedisPassword@2024"  # Replace with a secure password
+
+#   users:
+#     lambda:
+#       access_string: "on ~* +@all"
+#       passwords:
+#         - "password123456789"  # Replace with a secure password
+
+#   user_group_id: "use1-sandbox-redis-0-user-group"  # Replace with your user group ID
+
+#   tags:
+#    sdlc: "rnd"
+#    environment_name: "sandbox"
+#    is_prod: "false"
+#    customer_critical: "true"
+
+# redis_security_group:
+#   name: "use1-sandbox-redis-0-security-group"
+#   description: "Security group used by Redis"
+#   vpc_id: "vpc-0d4dff948f2a7a05c"  # Example VPC ID
+
+#   egress_rules:
+#     - "all-all"
+
+#   ingress_with_cidr_blocks:
+#     - rule: "redis-tcp"
+#       cidr_blocks:
+#         - "10.100.0.0/16"  # Replace with your CIDR block
+#       name: "use1-sandbox-postgresql-0-security-group-ingress-rule"
+#       description: "Redis"
+
+#   tags:
+#     sdlc: "rnd"
+#     environment_name: "sandbox"
+#     is_prod: "false"
+#     customer_critical: "false"

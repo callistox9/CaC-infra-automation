@@ -1,0 +1,18 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+secrets_manager_configs:
+  secrets_manager_resource_0:
+    sm_name_suffix: "sm-0"
+    policy_sid: "SecretsManagerReadWrite"
+    user_actions: ["secretsmanager:GetSecretValue"]
+    user_actions_resources: ["*"]
+    # tags:
+    #   customer_critical: "true"
+

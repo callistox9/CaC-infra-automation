@@ -1,0 +1,23 @@
+
+iam_roles_and_policies_configs:
+  role_0:
+    role_name_suffix : "role-0"
+    trusted_role_arns:
+      - "arn:aws:iam::891376921657:root" #Allow account or role to assume the role
+    trusted_role_services:
+      - "lambda.amazonaws.com" #Allow service to assume the role
+    policy_arns:
+      - "arn:aws:iam::aws:policy/AmazonS3FullAccess" # Attack AWS Managed Policies 
+      - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
+
+    attach_inline_policy: true
+    inline_policy_name_suffix: "policy-0"
+    inline_policy_statements: 
+      - Effect: "Allow"
+        Action:
+          - "s3:ListBucket"
+        Resource: "arn:aws:s3:::example-bucket"
+      - Effect: "Allow"
+        Action:
+          - "s3:GetObject"
+        Resource: "arn:aws:s3:::example-bucket/*"

@@ -1,0 +1,16 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+# vpc_name : "${region_short}-${sdlc}-${env}-0-vpc-0"
+cognito_pool_configs:
+  cognito_pool_resource_0:
+   cognito_name_suffix: "cognito-pool-0"
+   mfa: "OFF"
+   reply_ro_email_address: ""
+   source_arn: "arn:aws:ses:us-east-1:654654381413:identity/venkat.r@effibuild.co"

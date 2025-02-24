@@ -1,0 +1,35 @@
+security_group_configs:
+  sagemaker-domain-sg:
+    security_group_name_suffix : "sagemaker-domain-sg"
+    security_group_egress_rules: ["all-all"]
+    security_group_description: "sagemaker domain sg"
+    vpc_id: "vpc-0b9b948b9fda7e06f"
+    ingress_with_cidr_blocks: []
+    ingress_with_self:
+    - from_port: 2049
+      to_port: 2049
+      protocol: "tcp"
+      self: true
+      name: "sagemaker-nfs-ports"
+      description: "NFS traffic over TCP on port 2049 between the domain and EFS volume"
+    - from_port: 8192
+      to_port: 65535
+      protocol: "tcp"
+      self: true
+      name: "sagemaker-apps-ports"
+      description: "TCP traffic between JupyterServer app and the KernelGateway apps"
+  vpc-endpoint-sg:
+    security_group_name_suffix : "vpc-endpoint-sg"
+    security_group_egress_rules: ["all-all"]
+    security_group_description: "vpc endpoint sg"
+    vpc_id: "vpc-0b9b948b9fda7e06f"
+    ingress_with_self: []
+    ingress_with_cidr_blocks:
+    - from_port: 443
+      to_port: 443
+      protocol: "tcp"
+      cidr_blocks: "10.0.0.0/20"
+      name: "vpc-443-ports"
+      description: "Allow incoming connections on port 443 from VPC"
+
+

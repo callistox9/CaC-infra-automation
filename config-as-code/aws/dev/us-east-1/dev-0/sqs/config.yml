@@ -1,0 +1,40 @@
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+sqs_configs:
+  sqs-resource-0:
+    name: "sqs-dev-0"
+    fifo_queue: false                     ## Optional; set to false by default
+    delay_seconds: 0   # Delivery delay set to 0 seconds
+    max_message_size: 262144  # 256 KB in bytes
+    message_retention_seconds: 345600  # 4 days in seconds
+    receive_wait_time_seconds: 0  # No wait time for receiving messages
+    visibility_timeout_seconds: 30  # Visibility timeout set to 30 seconds
+    enable_redrive_policy: false
+    redrive_policy:                # Redrive policy
+     deadLetterTargetArn: ""   #Leave empty if you plan to reference dynamically from Terraform
+     maxReceiveCount: 10  # Maximum receives before moving messages to DLQ
+     access_policy: |
+      {
+        "Version": "2012-10-17",
+        "Id": "__default_policy_ID",
+        "Statement": [
+          {
+            "Sid": "__owner_statement",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "654654381413"
+            },
+            "Action": [
+              "SQS:*"
+            ],
+            "Resource": "arn:aws:sqs:us-east-1:654654381413:*"
+          }
+        ]
+      }
+  

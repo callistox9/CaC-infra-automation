@@ -1,0 +1,13 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+## SSM Parameter configurations
+waf_configs:
+  waf_0:
+    name_suffix: common-cloudfront-waf 

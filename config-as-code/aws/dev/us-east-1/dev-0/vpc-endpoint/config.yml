@@ -1,0 +1,150 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+vpc_endpoint_configs: {}
+  # sagemaker_endpoints:
+  #   vpc_id: "vpc-0b9b948b9fda7e06f"
+  #   security_group_ids: ["sg-050d2815a734d876e"]
+  #   endpoints:
+  #     sagemaker-api:
+  #       service: "sagemaker.api"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-api"
+  #     sagemaker-runtime:
+  #       service: "sagemaker.runtime"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-runtime"
+  #     sagemaker-featurestore-runtime:
+  #       service: "sagemaker.featurestore-runtime"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-featurestore-runtime"
+  #     sagemaker-servicecatalog:
+  #       service: "servicecatalog"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-servicecatalog"
+  #     # sagemaker-notebook:
+  #     #   service_endpoint: "notebook"
+  #     #   # service: "aws.sagemaker.us-east-1.notebook"
+  #     #   service_type: "Interface"
+  #     #   subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #     #   private_dns_enabled: true
+  #     #   tags:
+  #     #     Name: "sagemaker-notebook"
+  #     sagemaker-sts:
+  #       service: "sts"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-sts"
+  #     sagemaker-cw-monitoring:
+  #       service: "monitoring"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-cw-monitoring"
+  #     sagemaker-cw-logs:
+  #       service: "logs"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-cw-logs"
+  #     sagemaker-ecr-dkr:
+  #       service: "ecr.dkr"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-cw-ecr-dkr"
+  #     sagemaker-ecr-api:
+  #       service: "ecr.api"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-cw-ecr-api"
+  #     sagemaker-s3:
+  #       service: "s3"
+  #       service_type: "Gateway"
+  #       route_table_ids: ["rtb-05191bbee0d8fc4f6","rtb-0f1a08a912b57355b","rtb-07a1aa84a733a5f1d"]
+  #       tags:
+  #         Name: "sagemaker-s3"
+  #     sagemaker-canvas-forecast:
+  #       service: "forecast"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-forecast"
+  #     sagemaker-canvas-forecastquery:
+  #       service: "forecastquery"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-forecastquery"
+  #     sagemaker-canvas-rekognition:
+  #       service: "rekognition"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-rekognition"
+  #     sagemaker-canvas-textract:
+  #       service: "textract"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-textract"
+  #     sagemaker-canvas-comprehend:
+  #       service: "comprehend"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-comprehend"
+  #     sagemaker-canvas-redshift-data:
+  #       service: "redshift-data"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-redshift-data"
+  #     sagemaker-canvas-athena:
+  #       service: "athena"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-athena"
+  #     sagemaker-canvas-glue:
+  #       service: "glue"
+  #       service_type: "Interface"
+  #       subnet_ids: ["subnet-0215b8bb427989e8f", "subnet-074d4f26915075273", "subnet-0bbd72cbed9f2ed9c"]
+  #       private_dns_enabled: true
+  #       tags:
+  #         Name: "sagemaker-canvas-glue"
+
+
+

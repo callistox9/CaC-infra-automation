@@ -1,0 +1,17 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+ses_configs:
+  ses_domain_0:
+     domain: "sandbox.effibuild.co"
+     namespace: "eb-snadbox"
+     name: "test-identity"
+     stage: "sandbox-test"
+     #zone_id: "Z1234567890ABCDEF" #dummy X-Y-Z
+   

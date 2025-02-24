@@ -1,0 +1,15 @@
+## Global configurations
+global:
+  tags:
+    service: "eb-backend"
+    Name: "eb-backend"
+    Environment: "sandbox"
+    Owner: "backend-team"
+    engineering-org: "backend"
+
+cdn_configs:
+  cloudfront_0:
+    cloudfront_name_suffix: "cloudfront-0"
+    # cloudfront_default_root_object: "index.html"
+    # cloudfront_default_cache_behavior:
+    #create_distribution : true  
