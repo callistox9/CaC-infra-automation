@@ -1,4 +1,4 @@
-## Global configurations
+
 global:
   tags:
     service: "eb-backend"
@@ -7,7 +7,6 @@ global:
     Owner: "backend-team"
     engineering-org: "backend"
 
-# vpc_name : "${region_short}-${sdlc}-${env}-0-vpc-0"
 cognito_pool_configs:
   cognito_pool_resource_0:
    cognito_name_suffix: "cognito-pool-0"
