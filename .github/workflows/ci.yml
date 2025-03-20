@@ -1,0 +1,111 @@
+name: Lambda Layers CI
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+env:
+  CURRENT_REPO: "repo-c"
+  S3_BUILD_ARTIFACT_BUCKET: "ci-builds-artifacts" 
+
+on:
+  # push:
+  #   branches:
+  #     - "dev-*"
+  #     - "siteintel-terra"
+  #     - "main"
+  #   paths:
+  #     - '.github/workflows/ci.yml'
+  #     - 'lambdas'
+  #     - 'package.json'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        type: choice
+        default: "sandbox"
+        options:
+          - "sandbox"
+          - "dev"
+          - "prod"
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repo site-intel-terra
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: ${{ env.CURRENT_REPO }}
+          ref: "siteintel-terra"
+
+      - name: debug using cli
+        run: |
+          pwd
+          ls -alh .
+        working-directory: ${{ env.CURRENT_REPO }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "*" # * will get the latest locally-cached Node.js version, or the latest version from actions/node-versions, depending on the check-latest input.
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ${{ env.CURRENT_REPO }}
+
+        # Doc -- https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
+        # Need to configure the role to be abe to use a repo and a branch
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::891376921657:role/github_oidc_iam_role_for_terragrunt
+          role-session-name: user-backend-terra
+          aws-region: us-east-1
+        
+
+      - name: build a lambda layer zip 
+        run: |
+            ZIP_NODE_MODULES="node_modules.zip"
+            echo "ZIP_NODE_MODULES=$ZIP_NODE_MODULES" >> $GITHUB_ENV
+  
+            ZIP_UTILS="utils.zip"
+            echo "ZIP_UTILS=$ZIP_UTILS" >> $GITHUB_ENV
+  
+            REPO_NAME=$(echo "${GITHUB_REPOSITORY}" | cut -d'/' -f2)
+            echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY}"
+            echo "REPO_NAME=${REPO_NAME}"
+  
+            sudo mkdir /nodejs
+            sudo mkdir /temp
+            sudo mkdir /temp/nodejs
+            aws s3 cp s3://${S3_BUILD_ARTIFACT_BUCKET}/${REPO_NAME}/${{inputs.environment}}/docdb-global-bundle-dev.pem utils/docdb-global-bundle-dev.pem --debug
+            sudo cp -r utils /nodejs/utils
+            sudo cp -r node_modules /temp/nodejs/node_modules
+            sudo cp -r package.json /temp/nodejs/
+            sudo cp -r package-lock.json /temp/nodejs/
+
+            echo "Contents of /nodejs/utils/"
+            ls -l /nodejs/utils/
+            echo "Contents of /temp/nodejs/"
+            ls -l /temp/nodejs/
+                      
+            sudo zip -r $ZIP_UTILS /nodejs/utils/
+            cd /temp
+            sudo zip -r $ZIP_NODE_MODULES nodejs/  
+            
+            echo "REPO_NAME=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_ENV
+        working-directory: ${{ env.CURRENT_REPO }}
+        
+      - name: push to s3
+        run: |
+            
+            aws s3 cp $ZIP_UTILS s3://${S3_BUILD_ARTIFACT_BUCKET}/${REPO_NAME}/${{inputs.environment}}/lambda-layers/
+            cd /temp
+            aws s3 cp $ZIP_NODE_MODULES s3://${S3_BUILD_ARTIFACT_BUCKET}/${REPO_NAME}/${{inputs.environment}}/lambda-layers/
+        working-directory: ${{ env.CURRENT_REPO }}
+
+

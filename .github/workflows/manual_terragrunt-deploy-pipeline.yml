@@ -1,0 +1,145 @@
+
+name: Manual User Backend Effibuild - Deploy Pipeline
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+env:
+  tf_version: '1.9.4'
+  tg_version: '0.66.3'
+  TERRAFORM_MODULE_REPO: 'terraform-module'
+  CURRENT_REPO: 'current-repo'
+  DEVELOPER_REPO: 'terragrunt-dev'
+  sandbox_relative_path: "infrastructure/aws/sandbox/us-east-1/sandbox-0/siteintel_backend"
+  dev_relative_path: "infrastructure/aws/dev/us-east-1/dev-0/siteintel_backend"
+  prod_relative_path: "infrastructure/aws/prod/us-east-1/prod-0/siteintel_backend"
+on:
+  # push:
+  #   branches:
+  #     - "manual-deploy-pipeline"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        type: choice
+        default: "sandbox"
+        options:
+          - "sandbox"
+          - "dev"
+          - "prod"
+      # branch_name:
+      #   description: 'Select Repo Branch to apply terraform'
+      #   required: true
+      #   type: choice
+      #   default: 'main'
+      #   options:
+      #     - "*"   
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout this repo terraform-infra-modules
+      uses: actions/checkout@v3
+      with:
+        repository: Effibuild/terraform-infra-modules
+        token: ${{ secrets.REPO_ACCESS_TOKEN }} # TODO need to add this in the secrets
+        fetch-depth: 0
+        path: ${{ env.TERRAFORM_MODULE_REPO }}
+        ref: 'main'
+
+    - name: Checkout this repo terragrunt-dev
+      uses: actions/checkout@v3
+      with:
+        repository: Effibuild/terragrunt-dev
+        token: ${{ secrets.REPO_ACCESS_TOKEN }} # TODO need to add this in the secrets
+        fetch-depth: 0
+        path: ${{ env.DEVELOPER_REPO }}
+        ref: 'main'
+
+    - name: Fetch branches from siteintel_backend repository
+      id: fetch_branches
+      run: |
+        echo "Fetching branches from siteintel_backend repo..."
+        branches=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/Effibuild/siteintel_backend/branches" \
+            | jq -r '.[].name')
+        echo "Branches found: $branches"
+        echo "::set-output name=branches::$branches"
+
+    - name: Checkout this repo siteintel_backend
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        path: ${{ env.CURRENT_REPO }}
+        # ref: ${{ inputs.branch_name }}
+        # ref: ${{ github.event.inputs.branch_name }}
+        ref: ${{ github.ref }} 
+
+    - name: Copy files in case of Select Environment
+      working-directory: ${{ env.DEVELOPER_REPO}}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: |
+          cp -r /home/runner/work/siteintel_backend/siteintel_backend/current-repo/* .
+          pwd
+          cp -r /home/runner/work/siteintel_backend/siteintel_backend/terraform-module/serverless .
+          ls -alh .
+          pwd
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::891376921657:role/github_oidc_iam_role_for_terragrunt
+        role-session-name: site-intel-repo
+        aws-region: us-east-1
+
+
+    - name: Install Terraform
+      run: |
+        wget https://releases.hashicorp.com/terraform/${{ env.tf_version }}/terraform_${{ env.tf_version }}_linux_amd64.zip
+        unzip terraform_${{ env.tf_version }}_linux_amd64.zip
+        chmod +x terraform
+        sudo mv terraform /usr/local/bin/terraform 
+
+    - name: Install Terragrunt
+      run: |
+        wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.66.8/terragrunt_linux_amd64
+        chmod +x terragrunt_linux_amd64
+        sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
+
+    - name: Install boto3
+      if: ${{ env.STOP != 'true' }}
+      run: |
+        sudo apt install python3-boto3
+
+    - name: Apply Terraform based on Select Environment
+      working-directory: ${{ env.DEVELOPER_REPO}}
+      if: ${{ (github.event_name == 'workflow_dispatch') }}
+      run: |
+          if [[ ${{ inputs.environment }} == "sandbox" ]]; then
+            target_environment=/home/runner/work/siteintel_backend/siteintel_backend/terragrunt-dev/${{ env.sandbox_relative_path }}
+          fi  
+          if [[ ${{ inputs.environment }} == "dev" ]]; then
+            target_environment=/home/runner/work/siteintel_backend/siteintel_backend/terragrunt-dev/${{ env.dev_relative_path }}
+          fi  
+          if [[ ${{ inputs.environment }} == "prod" ]]; then
+            target_environment=/home/runner/work/siteintel_backend/siteintel_backend/terragrunt-dev/${{ env.prod_relative_path }}
+          fi  
+          
+          echo "Going to apply terraform in Target Environment: $target_environment"
+
+          terragrunt init --terragrunt-working-dir $target_environment
+          terragrunt --terragrunt-non-interactive apply --terragrunt-working-dir $target_environment -auto-approve
+          
+  
+
+
+
+
+
+
+
+
